@@ -16,6 +16,9 @@ const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 
 require('./models/User');
+require('./config/passport')
+const passport = require('passport');
+app.use(passport.initialize());
 
 if (!isProduction) {
     // enable CORS only in development because React will be on the React
