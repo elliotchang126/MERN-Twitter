@@ -3,14 +3,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const debug = require('debug')
 
-const cors = require('cors');
-const csurf = require('csurf');
-const { isProduction } = require('./config/keys');
-
-const usersRouter = require('./routes/api/users');
-const tweetsRouter = require('./routes/api/tweets');
-const csrfRouter = require('./routes/api/csrf');
-
 const app = express();
 
 app.use(logger('dev'));
@@ -19,7 +11,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-if (!isProduction) app.use(cors());
+const cors = require('cors');
+const csurf = require('csurf');
+const { isProduction } = require('./config/keys');
+
+require('./models/User');
+
+if (!isProduction) {
+    // enable CORS only in development because React will be on the React
+    // development server (http://localhost:3000)
+    // (In production, React files will be served statically on the Express server)
+    app.use(cors());
+}
 
 app.use(
     csurf({
@@ -30,6 +33,10 @@ app.use(
         }
     })
 );
+
+const usersRouter = require('./routes/api/users');
+const tweetsRouter = require('./routes/api/tweets');
+const csrfRouter = require('./routes/api/csrf');
 
 app.use('/api/users', usersRouter);
 app.use('/api/tweets', tweetsRouter);
