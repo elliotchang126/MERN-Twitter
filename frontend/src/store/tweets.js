@@ -87,3 +87,20 @@ export const fetchTweets = () => async dispatch => {
         return state;
     }
   };
+
+  const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
+    switch(action.type) {
+      case RECEIVE_TWEETS:
+        return { ...state, all: action.tweets, new: undefined};
+      case RECEIVE_USER_TWEETS:
+        return { ...state, user: action.tweets, new: undefined};
+      case RECEIVE_NEW_TWEET:
+        return { ...state, new: action.tweet};
+      case RECEIVE_USER_LOGOUT:
+        return { ...state, user: {}, new: undefined }
+      default:
+        return state;
+    }
+  };
+  
+  export default tweetsReducer;

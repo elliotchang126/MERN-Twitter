@@ -1,6 +1,8 @@
 import { Switch } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { AuthRoute, ProtectedRoute } from './components/routes/Routes';
 import NavBar from './components/NavBar/NavBar';
+import { useDispatch } from 'react-redux';
 
 import MainPage from './components/MainPage/MainPage';
 import LoginForm from './components/SessionForms/LoginForm';
